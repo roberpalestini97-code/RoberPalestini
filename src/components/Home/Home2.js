@@ -2,12 +2,10 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import myImg from "../../Assets/avatar.svg";
 import Tilt from "react-parallax-tilt";
-import {
-  AiFillGithub,
-  // AiOutlineTwitter,
-  // AiFillInstagram,
-} from "react-icons/ai";
+import { AiFillGithub, AiOutlineMail } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
+import { SiFreelancer } from "react-icons/si";
+import { profile, links } from "../../data/cv";
 
 function Home2() {
   return (
@@ -19,28 +17,50 @@ function Home2() {
               Let Me <span className="purple"> Introduce </span> Myself
             </h1>
             <p className="home-about-body">
-              I fell in love with web sites developer since 2012...️
+              I'm a <b className="purple">{profile.title}</b> with{" "}
+              <b className="purple">{profile.years} years</b> building and
+              shipping web platforms end to end.
               <br />
-              <br />I am fluent in classics and powerfulls like Html5, I also apply my passion for developing products
-              with
+              <br />
+              I work across the whole stack:
               <i>
-                <b className="purple"> React.js and Node.js. </b>
+                <b className="purple"> React and Next.js </b>
               </i>
-              <br />
-              <br />
-              My field of Interest is to work Full-time remote &nbsp;
+              front ends,
               <i>
-                <b className="purple">in IT and Software Development company </b> 
-                 Also to help developing websites with the lastest technologies {" "}
+                <b className="purple"> Node.js / NestJS, Java and .NET </b>
+              </i>
+              back ends, and
+              <i>
+                <b className="purple"> AWS / Azure </b>
+              </i>
+              cloud infrastructure with Docker, Kubernetes and CI/CD.
+              <br />
+              <br />
+              I've delivered banking systems at
+              <b className="purple"> Bank COMAFI </b> and
+              <b className="purple"> Bank of Galicia </b>
+              (financial transactions, OAuth2/JWT security, microservices) and,
+              most recently, an entire SaaS product —
+              <a
+                href={links.botpass}
+                target="_blank"
+                rel="noreferrer"
+                className="purple"
+              >
+                <b> BotPass</b>
+              </a>{" "}
+              — from infrastructure to API, web app and WordPress plugin, using
+              an <b className="purple">AI-first workflow</b>.
+              <br />
+              <br />
+              Today I'm deepening into
+              <i>
                 <b className="purple">
-                with quality and learned skills.
+                  {" "}
+                  Agentic AI: RAG, LangChain/LangGraph, MCP and multi-agent
+                  systems.
                 </b>
-              </i>
-              <br />
-              <br />
-              Whenever possible, I also apply my passion for learn most popular 
-              <i>
-                <b className="purple"> Data Engineer.</b>
               </i>
             </p>
           </Col>
@@ -59,22 +79,44 @@ function Home2() {
             <ul className="home-about-social-links">
               <li className="social-icons">
                 <a
-                  href="https://github.com/robertopalestini"
+                  href={links.github}
                   target="_blank"
                   rel="noreferrer"
                   className="icon-colour  home-social-icons"
+                  aria-label="GitHub"
                 >
                   <AiFillGithub />
                 </a>
               </li>
               <li className="social-icons">
                 <a
-                  href="https://www.linkedin.com/in/robert-a-palestini-483586b1/"
+                  href={links.linkedin}
                   target="_blank"
                   rel="noreferrer"
                   className="icon-colour  home-social-icons"
+                  aria-label="LinkedIn"
                 >
                   <FaLinkedinIn />
+                </a>
+              </li>
+              <li className="social-icons">
+                <a
+                  href={links.freelancer}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="icon-colour  home-social-icons"
+                  aria-label="Freelancer"
+                >
+                  <SiFreelancer />
+                </a>
+              </li>
+              <li className="social-icons">
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="icon-colour  home-social-icons"
+                  aria-label="Email"
+                >
+                  <AiOutlineMail />
                 </a>
               </li>
             </ul>

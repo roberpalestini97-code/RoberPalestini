@@ -1,25 +1,100 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import ProjectCard from "./ProjectCards";
-// import BlogCard from "./BlogsCards";
 import Particle from "../Particle";
-import imageOne  from '../../Assets/Bioluniel-Logo.png';
-import imageAmazon  from '../../Assets/Portfolio/amazonclone.png';
-import imageTwo  from '../../Assets/Portfolio/BeFit.jpg';
-import imageThree  from '../../Assets/Portfolio/BurmaBikinis.jpg';
-import imageFour  from '../../Assets/Portfolio/BunkerGrafico.jpg';
-import imageFive  from '../../Assets/Portfolio/Situs.jpg';
-import imageSix  from '../../Assets/Portfolio/ColiseoVerbal-Logo.jpg';
-import imageSeven  from '../../Assets/Portfolio/Aikido-Logo.jpg';
-import imageEight  from '../../Assets/Portfolio/PhNegativo-Logo.jpg';
+import { links } from "../../data/cv";
+import imageBioluniel from "../../Assets/Bioluniel-Logo.png";
+import imageAmazon from "../../Assets/Portfolio/amazonclone.png";
+import imageBeFit from "../../Assets/Portfolio/BeFit.jpg";
+import imageBurma from "../../Assets/Portfolio/BurmaBikinis.jpg";
+import imageBunker from "../../Assets/Portfolio/BunkerGrafico.jpg";
+import imageSitus from "../../Assets/Portfolio/Situs.jpg";
+import imageColiseo from "../../Assets/Portfolio/ColiseoVerbal-Logo.jpg";
+import imageAikido from "../../Assets/Portfolio/Aikido-Logo.jpg";
+import imagePhNegativo from "../../Assets/Portfolio/PhNegativo-Logo.jpg";
 
-// import leaf from "../../Assets/Projects/leaf.png";
-// import emotion from "../../Assets/Projects/emotion.jpeg";
-// import editor from "../../Assets/Projects/codeEditor.png";
-// import chatify from "../../Assets/Projects/chatify.png";
-// import suicide from "../../Assets/Projects/suicide.png";
-// import algo from "../../Assets/Projects/algo.png";
-// import plant from "../../Assets/Projects/plant.jpeg";
+const featured = [
+  {
+    title: "BotPass",
+    subtitle: "Performance Media · 2026",
+    description:
+      "Complete SaaS product built end to end with an AI-first workflow: full cloud infrastructure, REST API, web app and a PHP WordPress plugin that connects WordPress sites to the platform.",
+    stack: ["AI-first", "Claude Code", "REST API", "Cloud infra", "WordPress (PHP)"],
+    link: links.botpass,
+  },
+  {
+    title: "Accounting & Reconciliation Cloud Migration",
+    subtitle: "Bank COMAFI · 2024 - 2026",
+    description:
+      "Migration of desktop accounting and reconciliation systems to AWS cloud applications: Java microservices, TypeScript serverless APIs, Azure AD/OAuth2/JWT security, GitLab CI pipelines and scheduled data operations with Control-M.",
+    stack: ["AWS", "Java", "Lambda", "Prisma", "PostgreSQL", "GitLab CI", "CloudFormation"],
+  },
+  {
+    title: "COMEX Foreign Trade & Guarantees Platform",
+    subtitle: "Bank of Galicia · 2021 - 2023",
+    description:
+      "React.js foreign-trade web app over Java and .NET microservices, a guarantees system with NestJS BFF and .NET Core 6, MT103/MT199 message trays, and an in-house Next.js platform with OpenTelemetry tracing.",
+    stack: ["React", "Next.js", "NestJS", ".NET Core", "Spring Boot", "Azure MSAL", "OpenShift"],
+  },
+  {
+    title: "University Course Migration",
+    subtitle: "Tutodia · 2021 - 2023",
+    description:
+      "Migrated Blackboard courses to AWS storage and built a React front end with EC2-based login for a university in Brisbane, Australia.",
+    stack: ["React", "AWS S3", "EC2"],
+  },
+];
+
+const portfolio = [
+  {
+    imgPath: imageBioluniel,
+    title: "BioLuniel ReactApp",
+    description:
+      "Alternative-medicine products app built with React.js and Node.js on a Symfony 5.1 (PHP) backend.",
+    link: "https://bioluniel-smoothscroll.herokuapp.com/",
+  },
+  {
+    imgPath: imageAmazon,
+    title: "Amazon Clone ReactApp",
+    description: "E-commerce storefront clone built with React.js.",
+  },
+  {
+    imgPath: imageBeFit,
+    title: "BeFit Html5",
+    description: "Responsive website built with HTML5 and CSS3.",
+  },
+  {
+    imgPath: imageBurma,
+    title: "BurmaBikinis E-commerce",
+    description: "Online store with product catalog and shopping cart.",
+  },
+  {
+    imgPath: imageBunker,
+    title: "BunkerGráfico Html5 Bootstrap",
+    description:
+      "Website and brand identity for an offset print house: editorial design, web development and marketing communication.",
+  },
+  {
+    imgPath: imageSitus,
+    title: "Situs Html5 Bootstrap",
+    description: "Responsive corporate website built with HTML5 and Bootstrap.",
+  },
+  {
+    imgPath: imageColiseo,
+    title: "IsoLogo Illustrator",
+    description: "Brand isologo for Coliseo Verbal, designed in Adobe Illustrator.",
+  },
+  {
+    imgPath: imageAikido,
+    title: "IsoLogo Design",
+    description: "Brand isologo design for an Aikido school.",
+  },
+  {
+    imgPath: imagePhNegativo,
+    title: "IsoLogo + Typologo Design",
+    description: "Isologo and typographic logo for Ph Negativo.",
+  },
+];
 
 function Projects() {
   return (
@@ -27,102 +102,32 @@ function Projects() {
       <Particle />
       <Container>
         <h1 className="project-heading">
-          My Recent <strong className="purple">Works </strong>
+          Featured <strong className="purple">Professional Work </strong>
         </h1>
         <p style={{ color: "white" }}>
-          Here are a selection of few projects I've worked on recently.
+          Platforms I've built and shipped for companies and banks.
         </p>
-
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={imageOne}
-              //isBlog={true}
-              title="BioLuniel ReactApp"
-              description="Alternative Medicine Products"
-              link="https://bioluniel-smoothscroll.herokuapp.com/"
-            />
-          </Col>
+          {featured.map((p) => (
+            <Col md={6} className="project-card" key={p.title}>
+              <ProjectCard {...p} />
+            </Col>
+          ))}
+        </Row>
 
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={imageAmazon}
-              //isBlog={false}
-              title="Amazon Clone ReactApp"
-              description=""
-              //link="https://github.com/beebus/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={imageTwo}
-              //isBlog={false}
-              title="BeFit Html5"
-              description="a"
-              //link="https://github.com/beebus/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={imageThree}
-              //isBlog={false}
-              title="BurmaBikinis E-commerce"
-              description="a"
-              //link="https://github.com/beebus/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={imageFour}
-              //isBlog={false}
-              title="BunkerGráfico Html5 Bootstrap"
-              description="a"
-              //link="https://github.com/beebus/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={imageFive}
-              //isBlog={false}
-              title="Situs Html5 Bootstrap"
-              //description=""
-              //link="https://github.com/beebus/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={imageSix}
-              //isBlog={false}
-              title="IsoLogo Illustrator"
-              //description=""
-              //link="https://github.com/beebus/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={imageSeven}
-              //isBlog={false}
-              title="IsoLogo Design"
-              //description=""
-              //link="https://github.com/beebus/"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={imageEight}
-              //isBlog={false}
-              title="IsoLogo + Typologo Design"
-              //description=""
-              //link="https://github.com/beebus/"
-            />
-          </Col>
+        <h1 className="project-heading">
+          Freelance & <strong className="purple">Design Works </strong>
+        </h1>
+        <p style={{ color: "white" }}>
+          A selection of web and graphic design projects from my freelance
+          years.
+        </p>
+        <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
+          {portfolio.map((p) => (
+            <Col md={4} className="project-card" key={p.title}>
+              <ProjectCard {...p} />
+            </Col>
+          ))}
         </Row>
       </Container>
     </Container>

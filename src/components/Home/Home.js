@@ -4,6 +4,7 @@ import homeLogo from "../../Assets/home-main.svg";
 import Particle from "../Particle";
 import Home2 from "./Home2";
 import Type from "./Type";
+import { profile } from "../../data/cv";
 
 function Home() {
   return (
@@ -19,7 +20,7 @@ function Home() {
 
               <h1 className="heading-name">
                 I'm
-                <strong className="main-name"> Robert A. Palestini</strong>
+                <strong className="main-name"> {profile.name}</strong>
               </h1>
 
               <div style={{ padding: 50, textAlign: "left" }}>

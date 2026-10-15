@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
@@ -11,10 +11,12 @@ import {
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
   AiOutlineUser,
+  AiOutlineSolution,
 } from "react-icons/ai";
 
 import { CgFileDocument } from "react-icons/cg";
-import resume from '../Assets/curriculum.pdf';
+import resume from "../Assets/curriculum.pdf";
+import { links } from "../data/cv";
 
 function NavBar() {
   const [expand, updateExpanded] = useState(false);
@@ -28,9 +30,11 @@ function NavBar() {
     }
   }
 
-  window.addEventListener("scroll", scrollHandler);
+  useEffect(() => {
+    window.addEventListener("scroll", scrollHandler);
+    return () => window.removeEventListener("scroll", scrollHandler);
+  }, []);
 
-  
   return (
     <Navbar
       expanded={expand}
@@ -39,7 +43,7 @@ function NavBar() {
       className={navColour ? "sticky" : "navbar"}
     >
       <Container>
-        <Navbar.Brand href="/">
+        <Navbar.Brand as={Link} to="/">
           <img src={logo} className="img-fluid logo" alt="brand" />
         </Navbar.Brand>
         <Navbar.Toggle
@@ -82,20 +86,30 @@ function NavBar() {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link
-                href={resume}
-                target="_blank"
-                download="curriculum.pdf"
-                // to="/resume"
+                as={Link}
+                to="/resume"
                 onClick={() => updateExpanded(false)}
               >
-                <CgFileDocument style={{ marginBottom: "2px" }} /> Resume
+                <AiOutlineSolution style={{ marginBottom: "2px" }} /> Experience
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                href={resume}
+                target="_blank"
+                download="Roberto_Palestini_CV.pdf"
+                onClick={() => updateExpanded(false)}
+              >
+                <CgFileDocument style={{ marginBottom: "2px" }} /> CV
               </Nav.Link>
             </Nav.Item>
 
             <Nav.Item className="fork-btn">
               <Button
-                href="https://www.freelancer.com/u/roberpalestini"
+                href={links.freelancer}
                 target="_blank"
+                rel="noreferrer"
+                title="Freelancer.com profile"
                 className="fork-btn-inner"
               >
                 <CgGitFork style={{ fontSize: "1.2em" }} />{" "}

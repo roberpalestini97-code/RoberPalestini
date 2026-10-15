@@ -1,6 +1,7 @@
 import React from "react";
 import GitHubCalendar from "react-github-calendar";
 import { Row } from "react-bootstrap";
+import { links } from "../../data/cv";
 
 function Github() {
   const colourTheme = {
@@ -15,10 +16,10 @@ function Github() {
   return (
     <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
       <h1 className="project-heading" style={{ paddingBottom: "20px" }}>
-        When I Have Used <strong className="purple">GitHub</strong>
+        Days I <strong className="purple">Code</strong>
       </h1>
       <GitHubCalendar
-        username="robertopalestini"
+        username={links.githubUser}
         blockSize={15}
         blockMargin={5}
         theme={colourTheme}

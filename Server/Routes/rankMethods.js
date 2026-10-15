@@ -12,7 +12,7 @@ router.get("/getRanks", (req, res, next) => {
     } else if (!result) {
       return res.json({ status: 422, message: "Document Not Found" });
     } else {
-      allRanks = [];
+      const allRanks = [];
       allRanks.push({ spojRank: result.spojRank });
       allRanks.push({ hackerrank: result.hackerrank });
       allRanks.push({ cgpa: result.cgpa });

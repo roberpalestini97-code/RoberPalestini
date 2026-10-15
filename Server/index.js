@@ -24,11 +24,11 @@ app.listen(Port, () => {
   console.log(`Server Running ${Port}`);
 });
 
-mongoose
-  .connect(uri)
-  .then(function () {
-    console.log("Moongose Connection Successful");
-  })
-  .catch(function (err) {
-    console.log(err);
-  });
+if (!uri) {
+  console.warn("MONGODB_URI not set: API running without database connection");
+} else {
+  mongoose
+    .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log("Mongoose Connection Successful"))
+    .catch((err) => console.log(err));
+}

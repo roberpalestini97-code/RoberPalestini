@@ -1,16 +1,12 @@
 import React from "react";
 import Typewriter from "typewriter-effect";
+import { roles } from "../../data/cv";
 
 function Type() {
   return (
     <Typewriter
       options={{
-        strings: [
-          "FullStack Developer",
-          "React.js & Node.js",
-          "Web Designer",
-          "Graphic Designer",
-        ],
+        strings: roles,
         autoStart: true,
         loop: true,
         deleteSpeed: 50,
