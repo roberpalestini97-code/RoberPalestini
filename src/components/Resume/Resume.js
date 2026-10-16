@@ -2,8 +2,9 @@ import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { AiOutlineDownload } from "react-icons/ai";
 import Particle from "../Particle";
-import pdf from "../../Assets/curriculum.pdf";
-import { experience, education, summary } from "../../data/cv";
+import { useCv, cvPdf, cvFileName } from "../../data/cv";
+import { useLang } from "../../context/LanguageContext";
+import usePageMeta from "../../hooks/usePageMeta";
 
 function ResumeItem({ title, subtitle, period, children }) {
   return (
@@ -16,36 +17,40 @@ function ResumeItem({ title, subtitle, period, children }) {
   );
 }
 
-function DownloadButton() {
+function DownloadButton({ label }) {
   return (
     <Row style={{ justifyContent: "center", position: "relative" }}>
       <Button
         variant="primary"
-        href={pdf}
+        href={cvPdf}
         target="_blank"
-        download="Roberto_Palestini_CV.pdf"
+        rel="noreferrer"
+        download={cvFileName}
         style={{ maxWidth: "250px" }}
       >
         <AiOutlineDownload />
-        &nbsp;Download CV
+        &nbsp;{label}
       </Button>
     </Row>
   );
 }
 
 function Resume() {
+  const { t } = useLang();
+  const { experience, education, summary } = useCv();
+  usePageMeta(t("titles.resume"));
   return (
     <Container fluid className="resume-section">
       <Particle />
       <Container>
-        <DownloadButton />
+        <DownloadButton label={t("resume.download")} />
         <Row className="resume">
           <Col md={12}>
-            <h3 className="resume-title">Professional Summary</h3>
+            <h3 className="resume-title">{t("resume.summary")}</h3>
             <p style={{ textAlign: "justify" }}>{summary}</p>
           </Col>
           <Col md={7} className="resume-left">
-            <h3 className="resume-title">Work Experience</h3>
+            <h3 className="resume-title">{t("resume.experience")}</h3>
             {experience.map((job) => (
               <ResumeItem
                 key={job.company + job.period}
@@ -67,7 +72,7 @@ function Resume() {
             ))}
           </Col>
           <Col md={5} className="resume-right">
-            <h3 className="resume-title">Education</h3>
+            <h3 className="resume-title">{t("resume.education")}</h3>
             {education.map((ed) => (
               <ResumeItem
                 key={ed.institution + ed.period}
@@ -84,7 +89,7 @@ function Resume() {
             ))}
           </Col>
         </Row>
-        <DownloadButton />
+        <DownloadButton label={t("resume.download")} />
       </Container>
     </Container>
   );

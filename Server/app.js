@@ -1,10 +1,8 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const config = require("./config");
-const likeRoute = require("./Routes/likeMethods");
-const rankRoute = require("./Routes/rankMethods");
 const contactRoute = require("./Routes/contact");
+const likesRoute = require("./Routes/likes");
 
 const app = express();
 
@@ -22,20 +20,9 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
 app.get("/", (req, res) => res.json({ message: "Server Running" }));
 
-app.use("/likes", likeRoute);
-app.use("/ranks", rankRoute);
-app.use("/contact", contactRoute);
-// Same route under /api: used by the Vercel function and the CRA dev proxy.
-app.use("/api/contact", contactRoute);
-
-const uri = config.getSecretToken();
-if (!uri) {
-  console.warn("MONGODB_URI not set: API running without database connection");
-} else {
-  mongoose
-    .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("Mongoose Connection Successful"))
-    .catch((err) => console.log(err));
-}
+// Routes are also mounted under /api: used by the Vercel functions and the
+// CRA dev proxy.
+app.use(["/contact", "/api/contact"], contactRoute);
+app.use(["/likes", "/api/likes"], likesRoute);
 
 module.exports = app;

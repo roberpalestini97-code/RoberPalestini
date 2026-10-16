@@ -126,10 +126,14 @@ function FintechScreen() {
   );
 }
 
-function VideoScreen() {
+function VideoScreen({ poster }) {
   return (
     <div className="mk mk-video">
-      <div className="mk-player">
+      <div
+        className={`mk-player ${poster ? "has-poster" : ""}`}
+        style={poster ? { backgroundImage: `url(${poster})` } : undefined}
+      >
+        {poster && <span className="mk-live-tag">● LIVE</span>}
         <span className="mk-play" />
         <div className="mk-progress">
           <span />
@@ -167,7 +171,7 @@ const screens = {
   site: SiteScreen,
 };
 
-function BrowserMockup({ domain, screen = "site", image, hue = 280, isPrivate, compact }) {
+function BrowserMockup({ domain, screen = "site", image, poster, hue = 280, isPrivate, compact, privateLabel }) {
   const Screen = screens[screen] || SiteScreen;
   return (
     <div
@@ -182,14 +186,14 @@ function BrowserMockup({ domain, screen = "site", image, hue = 280, isPrivate, c
           <i />
         </span>
         <span className="browser-url">
-          <FiLock /> {isPrivate ? "internal · private network" : domain}
+          <FiLock /> {isPrivate ? privateLabel || "internal · private network" : domain}
         </span>
       </div>
       <div className="browser-body">
         {image ? (
           <img src={image} alt="" className="browser-img" />
         ) : (
-          <Screen />
+          <Screen poster={poster} />
         )}
       </div>
     </div>

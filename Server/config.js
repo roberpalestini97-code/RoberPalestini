@@ -13,8 +13,6 @@ const list = (value) =>
 
 module.exports = {
   DEFAULT_CONTACT_TO,
-  getSecretToken: () => process.env.MONGODB_URI,
-  getUser: () => process.env.SECRET_USER || "Roberto Palestini",
   getAllowedOrigins: () => list(process.env.ALLOWED_ORIGINS),
   getMail: () => ({
     transport: process.env.MAIL_TRANSPORT || "smtp",

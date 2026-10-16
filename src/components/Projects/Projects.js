@@ -1,25 +1,27 @@
 import React, { useMemo, useState } from "react";
 import { Container } from "react-bootstrap";
-import { FiMessageCircle, FiDownload, FiArrowRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { FiMessageCircle, FiDownload, FiArrowRight } from "react-icons/fi";
 import Particle from "../Particle";
 import Spotlight from "./Spotlight";
 import ProjectCard from "./ProjectCard";
 import Reveal from "./Reveal";
 import CountUp from "./CountUp";
-import resume from "../../Assets/curriculum.pdf";
 import ContactButton from "../Contact/ContactButton";
-import {
-  categories,
-  spotlight,
-  projects,
-  designWorks,
-  stats,
-} from "../../data/projects";
+import { categories, statValues, useProjects } from "../../data/projects";
+import { cvPdf, cvFileName } from "../../data/cv";
+import { useLang } from "../../context/LanguageContext";
+import { useLikes } from "../../context/LikesContext";
+import rich from "../../i18n/rich";
+import usePageMeta from "../../hooks/usePageMeta";
 import "./projects.css";
 
 function Projects() {
+  const { t } = useLang();
+  const { mostLiked } = useLikes();
+  const { projects, spotlight, designWorks } = useProjects();
   const [filter, setFilter] = useState("all");
+  usePageMeta(t("titles.projects"), t("projects.subtitle"));
 
   const counts = useMemo(() => {
     const c = { all: projects.length };
@@ -27,68 +29,60 @@ function Projects() {
       c[p.category] = (c[p.category] || 0) + 1;
     });
     return c;
-  }, []);
+  }, [projects]);
 
-  const visible =
-    filter === "all" ? projects : projects.filter((p) => p.category === filter);
+  const stats = statValues.map((s, i) =>
+    i === 1 ? { ...s, value: projects.filter((p) => p.live).length } : s
+  );
+  const statLabels = t("projects.stats");
+  const visible = filter === "all" ? projects : projects.filter((p) => p.category === filter);
 
   return (
     <Container fluid className="project-section pj">
       <Particle />
       <Container className="pj-container">
-        {/* Hero */}
         <header className="pj-hero">
           <Reveal>
-            <span className="eyebrow">Portfolio · 2011 — 2026</span>
+            <span className="eyebrow">{t("projects.eyebrow")}</span>
           </Reveal>
           <Reveal delay={80}>
-            <h1 className="pj-title">
-              Products I've <span className="gradient-text">built & shipped</span>
-            </h1>
+            <h1 className="pj-title">{richGradient(t("projects.title"))}</h1>
           </Reveal>
           <Reveal delay={160}>
-            <p className="pj-subtitle">
-              From a complete SaaS built with an AI-first workflow to banking
-              platforms that move real money: architecture, code and
-              infrastructure, end to end.
-            </p>
+            <p className="pj-subtitle">{t("projects.subtitle")}</p>
           </Reveal>
           <Reveal delay={240} className="pj-stats">
-            {stats.map((s) => (
-              <div className="stat" key={s.label}>
+            {stats.map((s, i) => (
+              <div className="stat" key={statLabels[i]}>
                 <span className="stat-value">
                   <CountUp value={s.value} suffix={s.suffix} />
                 </span>
-                <span className="stat-label">{s.label}</span>
+                <span className="stat-label">{statLabels[i]}</span>
               </div>
             ))}
           </Reveal>
         </header>
 
-        {/* Spotlight */}
         <Spotlight data={spotlight} />
 
-        {/* Grid */}
         <section className="pj-section">
           <Reveal className="pj-section-head">
             <div>
-              <span className="eyebrow">Selected work</span>
-              <h2 className="pj-h2">
-                Live products & <span className="purple">case studies</span>
-              </h2>
+              <span className="eyebrow">{t("projects.selected")}</span>
+              <h2 className="pj-h2">{rich(t("projects.listTitle"))}</h2>
             </div>
-            <div className="filters" role="tablist" aria-label="Filter projects">
+            <div className="filters" role="tablist" aria-label={t("projects.filterLabel")}>
               {categories.map((c) => (
                 <button
-                  key={c.id}
+                  key={c}
                   type="button"
                   role="tab"
-                  aria-selected={filter === c.id}
-                  className={`filter ${filter === c.id ? "active" : ""}`}
-                  onClick={() => setFilter(c.id)}
+                  aria-selected={filter === c}
+                  className={`filter ${filter === c ? "active" : ""}`}
+                  onClick={() => setFilter(c)}
                 >
-                  {c.label}
-                  <span className="filter-count">{counts[c.id] || 0}</span>
+                  {t(`projects.filters.${c}`)}
+                  <span className="filter-count">{counts[c] || 0}</span>
                 </button>
               ))}
             </div>
@@ -96,30 +90,20 @@ function Projects() {
 
           <div className="pj-grid" key={filter}>
             {visible.map((p, i) => (
-              <div
-                className="pj-grid-item"
-                key={p.id}
-                style={{ animationDelay: `${i * 70}ms` }}
-              >
-                <ProjectCard project={p} />
+              <div className="pj-grid-item" key={p.id} style={{ animationDelay: `${i * 70}ms` }}>
+                <ProjectCard project={p} isMostLiked={mostLiked === p.id} />
               </div>
             ))}
           </div>
         </section>
 
-        {/* Design archive */}
         <section className="pj-section">
           <Reveal className="pj-section-head">
             <div>
-              <span className="eyebrow">Archive</span>
-              <h2 className="pj-h2">
-                Freelance & <span className="purple">brand design</span>
-              </h2>
+              <span className="eyebrow">{t("projects.archive")}</span>
+              <h2 className="pj-h2">{rich(t("projects.designTitle"))}</h2>
             </div>
-            <p className="pj-section-note">
-              Web, e-commerce and identity work from my years as a web developer
-              and designer.
-            </p>
+            <p className="pj-section-note">{t("projects.designNote")}</p>
           </Reveal>
           <div className="gallery">
             {designWorks.map((w, i) => (
@@ -134,37 +118,40 @@ function Projects() {
           </div>
         </section>
 
-        {/* CTA */}
         <Reveal className="pj-cta">
           <div className="pj-cta-glow" />
-          <span className="eyebrow">Next project</span>
+          <span className="eyebrow">{t("projects.ctaEyebrow")}</span>
           <h2 className="pj-cta-title">
-            Have a product in mind? <span className="gradient-text">Let's build it.</span>
+            {t("projects.ctaTitle")} <span className="gradient-text">{t("projects.ctaTitleAccent")}</span>
           </h2>
-          <p className="pj-subtitle">
-            Full stack, cloud and AI-first development, from the first commit to
-            production.
-          </p>
+          <p className="pj-subtitle">{t("projects.ctaText")}</p>
           <div className="pj-cta-actions">
             <ContactButton className="btn-glow">
-              <FiMessageCircle /> Get in touch
+              <FiMessageCircle /> {t("projects.getInTouch")}
             </ContactButton>
-            <a
-              className="btn-ghost"
-              href={resume}
-              target="_blank"
-              rel="noreferrer"
-              download="Roberto_Palestini_CV.pdf"
-            >
-              <FiDownload /> Download CV
+            <a className="btn-ghost" href={cvPdf} target="_blank" rel="noreferrer" download={cvFileName}>
+              <FiDownload /> {t("resume.download")}
             </a>
             <Link className="btn-ghost" to="/resume">
-              Experience <FiArrowRight />
+              {t("nav.experience")} <FiArrowRight />
             </Link>
           </div>
         </Reveal>
       </Container>
     </Container>
+  );
+}
+
+// "**text**" → gradient span (used by the hero title).
+function richGradient(text) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") ? (
+      <span className="gradient-text" key={i}>
+        {part.slice(2, -2)}
+      </span>
+    ) : (
+      <React.Fragment key={i}>{part}</React.Fragment>
+    )
   );
 }
 

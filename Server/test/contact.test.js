@@ -1,6 +1,5 @@
 // Run with: npm test  (uses Node's built-in test runner)
 process.env.MAIL_TRANSPORT = "json";
-process.env.MONGODB_URI = "";
 
 const { test, before, after } = require("node:test");
 const assert = require("node:assert/strict");
@@ -61,6 +60,17 @@ test("email is optional: only the owner is notified", async () => {
   assert.equal(sent.length, 1);
   assert.equal(sent[0].to[0].address, "roberpalestini97@gmail.com");
   assert.ok(!sent[0].replyTo);
+});
+
+test("confirmation email follows the visitor language", async () => {
+  sent.length = 0;
+  const res = await post(
+    { name: "Lucía Díaz", phone: "2233431845", email: "lucia@example.com", lang: "es" },
+    "10.0.0.6"
+  );
+  assert.equal(res.status, 200);
+  assert.match(sent[1].subject, /Gracias por escribir/);
+  assert.match(sent[1].text, /¡Hola Lucía!/);
 });
 
 test("rejects invalid name, phone and email", async () => {

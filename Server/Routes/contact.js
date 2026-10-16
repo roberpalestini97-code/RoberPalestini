@@ -44,16 +44,30 @@ function ownerMessage({ name, phone, phoneDigits, email }, mail) {
   };
 }
 
-function confirmationMessage({ name, email }, mail) {
+const confirmationCopy = {
+  en: {
+    subject: "Thanks for reaching out — Roberto Palestini",
+    hi: (n) => `Hi ${n},`,
+    body: "Thanks for getting in touch! I received your details and will contact you soon.",
+  },
+  es: {
+    subject: "Gracias por escribir — Roberto Palestini",
+    hi: (n) => `¡Hola ${n}!`,
+    body: "Gracias por contactarme. Recibí tus datos y te escribo muy pronto.",
+  },
+};
+
+function confirmationMessage({ name, email }, mail, lang) {
+  const copy = lang === "es" ? confirmationCopy.es : confirmationCopy.en;
   const first = name.split(" ")[0];
   return {
     from: mail.from,
     to: email,
-    subject: "Thanks for reaching out — Roberto Palestini",
-    text: `Hi ${first},\n\nThanks for getting in touch! I received your details and will contact you soon.\n\nRoberto Palestini\nSenior Full Stack Developer`,
+    subject: copy.subject,
+    text: `${copy.hi(first)}\n\n${copy.body}\n\nRoberto Palestini\nSenior Full Stack Developer`,
     html: `<div style="font-family:Arial,sans-serif;max-width:520px">
-  <p>Hi ${escapeHtml(first)},</p>
-  <p>Thanks for getting in touch! I received your details and will contact you soon.</p>
+  <p>${escapeHtml(copy.hi(first))}</p>
+  <p>${copy.body}</p>
   <p style="margin-top:24px">Roberto Palestini<br><span style="color:#623686">Senior Full Stack Developer</span></p>
 </div>`,
   };
@@ -90,7 +104,7 @@ router.post("/", limiter, async (req, res) => {
 
   if (data.email && mail.sendConfirmation) {
     try {
-      await transporter.sendMail(confirmationMessage(data, mail));
+      await transporter.sendMail(confirmationMessage(data, mail, req.body.lang));
     } catch (err) {
       // The lead already reached the owner; a failed courtesy copy is not fatal.
       console.error("Contact form: failed to send confirmation email", err);

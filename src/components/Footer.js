@@ -4,14 +4,18 @@ import { AiFillGithub, AiOutlineMessage } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
 import { profile, links } from "../data/cv";
 import ContactButton from "./Contact/ContactButton";
+import { useLang } from "../context/LanguageContext";
 
 function Footer() {
+  const { t } = useLang();
   const year = new Date().getFullYear();
   return (
     <Container fluid className="footer">
       <Row>
         <Col md="4" className="footer-copyright">
-          <h3>Developed by {profile.name}</h3>
+          <h3>
+            {t("footer.developedBy")} {profile.name}
+          </h3>
         </Col>
         <Col md="4" className="footer-copyright">
           <h3>Copyright © {year} RP</h3>
@@ -44,8 +48,7 @@ function Footer() {
               <ContactButton
                 className="icon-like"
                 style={{ color: "white" }}
-                aria-label="Contact me"
-                title="Contact me"
+                aria-label={t("home.contactMe")}
               >
                 <AiOutlineMessage />
               </ContactButton>

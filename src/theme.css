@@ -1,0 +1,455 @@
+/* ============================================================
+   Theme tokens. Dark is the original look; light keeps the same
+   purples on a soft lavender background. The theme is set on
+   <html data-theme="dark|light"> (see context/ThemeContext.js).
+   ============================================================ */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #120c1f;
+  --bg-gradient: linear-gradient(to left, rgb(27 20 41), rgb(20 15 35));
+  --text: #f3eafa;
+  --text-muted: #b9a7c9;
+  --heading: #ffffff;
+  --accent: #c770f0;
+  --accent-strong: #be50f4;
+  --border: rgba(199, 112, 240, 0.3);
+  --chip-bg: rgba(98, 54, 134, 0.3);
+  --nav-bg: #212038d8;
+  --nav-mobile-bg: #181a27;
+  --nav-btn-bg: #934cce5e;
+  --footer-bg: rgb(10, 4, 22);
+  --like: #fb6fcd;
+  --like-soft: rgba(251, 111, 205, 0.14);
+  --float-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f0fb;
+  --bg-gradient: linear-gradient(to left, #fbf7fe, #f1e8f8);
+  --text: #2a1a3d;
+  --text-muted: #6a5a7d;
+  --heading: #1d1030;
+  --accent: #8a3fbf;
+  --accent-strong: #7a2fb3;
+  --border: rgba(138, 63, 191, 0.25);
+  --chip-bg: rgba(138, 63, 191, 0.08);
+  --nav-bg: rgba(250, 245, 254, 0.86);
+  --nav-mobile-bg: #faf5fe;
+  --nav-btn-bg: #8a3fbf;
+  --footer-bg: #efe4f7;
+  --like: #d63ba0;
+  --like-soft: rgba(214, 59, 160, 0.1);
+  --float-shadow: 0 12px 30px -10px rgba(98, 54, 134, 0.45);
+  --imp-text-color: #8a3fbf;
+  --section-background-color: linear-gradient(to bottom left, rgba(255, 255, 255, 0.5), rgba(239, 228, 248, 0.85));
+  --image-gradient: linear-gradient(to bottom left, rgba(250, 245, 254, 0.86), rgba(238, 226, 248, 0.94));
+}
+
+/* Smooth switch, only while toggling (no cost on normal renders). */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, fill 0.4s ease,
+    box-shadow 0.4s ease !important;
+}
+
+body {
+  background-color: var(--bg);
+  background-image: var(--bg-gradient);
+  color: var(--text);
+}
+
+/* ---------- Light overrides of the original dark styles ---------- */
+[data-theme="light"] #preloader {
+  background-color: #f6f0fb;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #efe4f7;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #b98bd8;
+}
+
+[data-theme="light"] .sticky {
+  background-color: var(--nav-bg) !important;
+  box-shadow: 0 8px 24px -12px rgba(98, 54, 134, 0.35) !important;
+}
+
+[data-theme="light"] .navbar-nav .nav-link,
+[data-theme="light"] .navbar-brand {
+  color: var(--heading) !important;
+}
+
+[data-theme="light"] .navbar-toggler span {
+  background-color: var(--accent) !important;
+}
+
+[data-theme="light"] .navbar-nav .nav-item a::after {
+  background: rgba(138, 63, 191, 0.35);
+}
+
+@media (max-width: 767px) {
+  [data-theme="light"] .navbar {
+    background-color: var(--nav-mobile-bg) !important;
+  }
+}
+
+[data-theme="light"] .logo {
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.35));
+}
+
+[data-theme="light"] .home-section {
+  background-image: var(--image-gradient);
+}
+
+[data-theme="light"] .home-content,
+[data-theme="light"] .home-about-description,
+[data-theme="light"] .home-about-social,
+[data-theme="light"] .about-section,
+[data-theme="light"] .resume-section,
+[data-theme="light"] .project-heading,
+[data-theme="light"] .quote-card-view,
+[data-theme="light"] .project-section > .container > p {
+  color: var(--text) !important;
+}
+
+[data-theme="light"] .main-name,
+[data-theme="light"] .Typewriter__wrapper,
+[data-theme="light"] .Typewriter__cursor {
+  color: var(--accent) !important;
+}
+
+[data-theme="light"] .tech-icons {
+  color: #4b2a6b;
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(138, 63, 191, 0.35) !important;
+  box-shadow: 0 6px 16px -10px rgba(98, 54, 134, 0.4) !important;
+}
+
+[data-theme="light"] .skill-badge {
+  color: var(--text);
+  background: var(--chip-bg);
+  border-color: var(--border);
+}
+
+[data-theme="light"] .resume .resume-item .resume-title {
+  background: rgba(138, 63, 191, 0.12);
+}
+
+[data-theme="light"] .footer {
+  background-color: var(--footer-bg);
+}
+
+[data-theme="light"] .footer h3,
+[data-theme="light"] .footer a,
+[data-theme="light"] .footer .icon-like {
+  color: var(--heading) !important;
+}
+
+[data-theme="light"] .blockquote-footer {
+  color: #8a6aa8 !important;
+}
+
+[data-theme="light"] .btn-primary {
+  background-color: #7a3fae !important;
+  border-color: #7a3fae !important;
+}
+
+[data-theme="light"] .fork-btn-inner {
+  background-color: var(--nav-btn-bg) !important;
+  border-color: transparent !important;
+}
+
+/* ---------- Projects page ---------- */
+[data-theme="light"] .project-section.pj {
+  --pj-accent: #8a3fbf;
+  --pj-accent-2: #7a3fae;
+  --pj-surface: rgba(255, 255, 255, 0.78);
+  --pj-surface-2: rgba(250, 244, 254, 0.9);
+  --pj-border: rgba(138, 63, 191, 0.18);
+  --pj-border-strong: rgba(138, 63, 191, 0.45);
+  --pj-text: #2a1a3d;
+  --pj-muted: #6a5a7d;
+  --pj-heading: #1d1030;
+}
+
+[data-theme="light"] .stat {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+[data-theme="light"] .spotlight-grid {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.97), rgba(247, 239, 253, 0.97));
+}
+
+[data-theme="light"] .spotlight-highlights li,
+[data-theme="light"] .pcard-desc {
+  color: #3d2a52;
+}
+
+[data-theme="light"] .chip {
+  color: #4b2a6b;
+  background: rgba(138, 63, 191, 0.08);
+}
+
+[data-theme="light"] .surface-tabs,
+[data-theme="light"] .filter {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="light"] .filter.active {
+  background: rgba(138, 63, 191, 0.12);
+}
+
+[data-theme="light"] .filter-count {
+  background: rgba(138, 63, 191, 0.16);
+}
+
+[data-theme="light"] .pcard:hover {
+  box-shadow: 0 24px 50px -26px hsla(var(--hue), 60%, 45%, 0.55);
+}
+
+[data-theme="light"] .pcard-link {
+  border-top-color: rgba(138, 63, 191, 0.12);
+}
+
+[data-theme="light"] .pcard-kind {
+  color: hsl(var(--hue), 55%, 42%);
+}
+
+[data-theme="light"] .status-live {
+  color: #17803d;
+  background: rgba(23, 128, 61, 0.08);
+  border-color: rgba(23, 128, 61, 0.25);
+}
+
+[data-theme="light"] .status-live i,
+[data-theme="light"] .status-live i::after {
+  background: #22a052;
+}
+
+[data-theme="light"] .status-private {
+  color: #5b3a7a;
+}
+
+[data-theme="light"] .pj-cta {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(243, 232, 251, 0.95));
+}
+
+[data-theme="light"] .browser {
+  box-shadow: 0 24px 50px -26px rgba(60, 20, 90, 0.55), 0 0 0 1px rgba(138, 63, 191, 0.1);
+}
+
+[data-theme="light"] .gradient-text {
+  background-image: linear-gradient(100deg, #8a3fbf 0%, #d63ba0 50%, #6d4fd8 100%);
+}
+
+/* ---------- Navbar tools: language, theme, like ---------- */
+.nav-tools {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  padding-top: 6px;
+}
+
+.nav-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 34px;
+  min-width: 34px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 0;
+  color: #fff;
+  background: var(--nav-btn-bg);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.nav-tool:hover {
+  transform: translateY(-2px);
+}
+
+.nav-tool:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.nav-tool span {
+  padding: 2px 5px;
+  border-radius: 999px;
+  opacity: 0.55;
+}
+
+.nav-tool span.on {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.nav-theme svg {
+  font-size: 1rem;
+}
+
+.nav-tools .like-nav {
+  margin-top: 0;
+  height: 34px;
+}
+
+@media (max-width: 767px) {
+  .nav-tools {
+    justify-content: center;
+    margin: 10px 0 0 !important;
+  }
+  .navbar-nav .fork-btn {
+    margin-left: 0;
+    text-align: center;
+  }
+}
+
+/* ---------- Floating WhatsApp ---------- */
+.wa-float {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1030;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 54px;
+  padding: 0 15px;
+  border-radius: 999px;
+  color: #fff !important;
+  background: #25d366;
+  box-shadow: var(--float-shadow);
+  font-size: 1.6rem;
+  text-decoration: none !important;
+  transition: transform 0.25s ease, gap 0.3s ease;
+}
+
+.wa-float:hover {
+  transform: translateY(-3px);
+  gap: 10px;
+}
+
+.wa-float:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.wa-float-label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.92rem;
+  font-weight: 700;
+  transition: max-width 0.35s ease;
+}
+
+.wa-float:hover .wa-float-label,
+.wa-float:focus-visible .wa-float-label {
+  max-width: 220px;
+}
+
+.wa-float::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55);
+  animation: wa-pulse 2.6s ease-out infinite;
+}
+
+@keyframes wa-pulse {
+  70% {
+    box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+body.swal2-shown .wa-float {
+  display: none;
+}
+
+@media (max-width: 575px) {
+  .wa-float {
+    right: 14px;
+    bottom: 14px;
+    height: 50px;
+    padding: 0 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-float::before {
+    animation: none;
+  }
+}
+
+/* ---------- Navbar fit: more items since adding the tools ---------- */
+.navbar-nav .nav-link {
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) and (max-width: 1399px) {
+  .navbar {
+    padding: 0.3rem 1rem !important;
+    font-size: 1.05rem !important;
+  }
+  .navbar-nav .nav-item {
+    margin-left: 4px;
+  }
+  .navbar-nav .nav-link {
+    padding-left: 0.6rem !important;
+    padding-right: 0.6rem !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  /* Tablet: icons only for the page links. */
+  .navbar-nav .nav-link {
+    font-size: 0;
+  }
+  .navbar-nav .nav-link svg {
+    font-size: 1.25rem;
+  }
+}
+
+/* Round social icons: same box whether <a> or <button>. */
+.home-social-icons {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 1 !important;
+}
+
+/* Stacked mockups in the BotPass spotlight read better without dimming on light. */
+[data-theme="light"] .surface-layer.pos-1 {
+  opacity: 0.7;
+  filter: saturate(0.85);
+}
+
+[data-theme="light"] .surface-layer.pos-2 {
+  opacity: 0.4;
+  filter: saturate(0.7);
+}
+
+.home-about-social-links .social-icons {
+  vertical-align: top;
+}
+
+button.home-social-icons {
+  margin: 0;
+  font-family: inherit;
+}

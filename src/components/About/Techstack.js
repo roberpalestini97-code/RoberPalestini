@@ -24,7 +24,7 @@ import {
   SiWordpress,
   SiPython,
 } from "react-icons/si";
-import { skills } from "../../data/cv";
+import { useCv } from "../../data/cv";
 
 const icons = [
   { icon: <SiJavascript />, label: "JavaScript" },
@@ -53,6 +53,7 @@ const icons = [
 ];
 
 function Techstack() {
+  const { skills } = useCv();
   return (
     <>
       <Row style={{ justifyContent: "center", paddingBottom: "30px" }}>

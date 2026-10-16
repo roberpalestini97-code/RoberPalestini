@@ -2,10 +2,8 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "./contact.css";
-
-// Same-origin "/api" by default (Vercel function in production, CRA proxy
-// to Server/ in development). Override with REACT_APP_API_URL if needed.
-const API_URL = (process.env.REACT_APP_API_URL || "/api").replace(/\/$/, "");
+import { API_URL } from "../../lib/api";
+import ui from "../../i18n/ui";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_RE = /^\+?[\d\s().-]+$/;
@@ -22,25 +20,26 @@ const swalTheme = {
   },
   buttonsStyling: false,
   background: "transparent",
-  color: "#f3eafa",
   showClass: { popup: "rp-swal-in" },
   hideClass: { popup: "rp-swal-out" },
 };
 
-const formHtml = `
-  <p class="rp-swal-intro">Leave your details and I'll get back to you shortly.</p>
+const escapeAttr = (v) => String(v).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+
+const formHtml = (s) => `
+  <p class="rp-swal-intro">${escapeAttr(s.intro)}</p>
   <form class="rp-form" novalidate autocomplete="on">
     <label class="rp-field">
-      <span>Name <em>*</em></span>
-      <input id="rp-name" name="name" type="text" maxlength="80" autocomplete="name" placeholder="Your name" required />
+      <span>${escapeAttr(s.name)} <em>*</em></span>
+      <input id="rp-name" name="name" type="text" maxlength="80" autocomplete="name" placeholder="${escapeAttr(s.namePh)}" required />
     </label>
     <label class="rp-field">
-      <span>Phone <em>*</em></span>
-      <input id="rp-phone" name="phone" type="tel" maxlength="25" autocomplete="tel" placeholder="+54 9 223 000 0000" required />
+      <span>${escapeAttr(s.phone)} <em>*</em></span>
+      <input id="rp-phone" name="phone" type="tel" maxlength="25" autocomplete="tel" placeholder="${escapeAttr(s.phonePh)}" required />
     </label>
     <label class="rp-field">
-      <span>Email <small>(optional)</small></span>
-      <input id="rp-email" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@company.com" />
+      <span>${escapeAttr(s.email)} <small>${escapeAttr(s.optional)}</small></span>
+      <input id="rp-email" name="email" type="email" maxlength="254" autocomplete="email" placeholder="${escapeAttr(s.emailPh)}" />
     </label>
     <input id="rp-company" name="company" type="text" tabindex="-1" autocomplete="off" class="rp-hp" aria-hidden="true" />
   </form>
@@ -56,16 +55,14 @@ function readForm() {
   };
 }
 
-function validate({ name, phone, email }) {
+function validate({ name, phone, email }, s) {
   const errors = {};
-  if (name.length < 2) errors["rp-name"] = "Please enter your name.";
+  if (name.length < 2) errors["rp-name"] = s.errName;
   const digits = phone.replace(/\D/g, "");
   if (!PHONE_RE.test(phone) || digits.length < 7 || digits.length > 15) {
-    errors["rp-phone"] = "Please enter a valid phone number.";
+    errors["rp-phone"] = s.errPhone;
   }
-  if (email && !EMAIL_RE.test(email)) {
-    errors["rp-email"] = "That email doesn't look right (or leave it empty).";
-  }
+  if (email && !EMAIL_RE.test(email)) errors["rp-email"] = s.errEmail;
   return errors;
 }
 
@@ -80,11 +77,11 @@ function markInvalid(errors) {
   if (first) document.getElementById(first).focus();
 }
 
-const serverFieldMap = { name: "rp-name", phone: "rp-phone", email: "rp-email" };
+const serverField = { name: ["rp-name", "errName"], phone: ["rp-phone", "errPhone"], email: ["rp-email", "errEmail"] };
 
-async function submit() {
+const submit = (s, lang) => async () => {
   const data = readForm();
-  const errors = validate(data);
+  const errors = validate(data, s);
   markInvalid(errors);
   if (Object.keys(errors).length) {
     Swal.showValidationMessage(Object.values(errors)[0]);
@@ -92,39 +89,36 @@ async function submit() {
   }
 
   try {
-    await axios.post(`${API_URL}/contact`, data, { timeout: 15000 });
+    await axios.post(`${API_URL}/contact`, { ...data, lang }, { timeout: 15000 });
     return true;
   } catch (err) {
     const res = err.response;
     if (res && res.status === 400 && res.data && res.data.errors) {
       const mapped = {};
-      Object.entries(res.data.errors).forEach(([k, v]) => {
-        if (serverFieldMap[k]) mapped[serverFieldMap[k]] = v;
+      Object.keys(res.data.errors).forEach((k) => {
+        if (serverField[k]) mapped[serverField[k][0]] = s[serverField[k][1]];
       });
       markInvalid(mapped);
-      Swal.showValidationMessage(Object.values(res.data.errors)[0]);
+      Swal.showValidationMessage(Object.values(mapped)[0] || s.errGeneric);
     } else if (res && res.status === 429) {
-      Swal.showValidationMessage(
-        "Too many messages in a short time. Please try again later."
-      );
+      Swal.showValidationMessage(s.errRate);
     } else {
-      Swal.showValidationMessage(
-        "The message couldn't be sent right now. Please try again in a moment."
-      );
+      Swal.showValidationMessage(s.errGeneric);
     }
     return false;
   }
-}
+};
 
 // Opens the contact form; resolves to true when the message was sent.
-export async function openContactForm({ title = "Let's talk" } = {}) {
+export async function openContactForm({ lang = "en" } = {}) {
+  const s = (ui[lang] || ui.en).contact;
   const result = await Swal.fire({
     ...swalTheme,
-    title,
-    html: formHtml,
+    title: s.title,
+    html: formHtml(s),
     showCancelButton: true,
-    confirmButtonText: "Send",
-    cancelButtonText: "Cancel",
+    confirmButtonText: s.send,
+    cancelButtonText: s.cancel,
     focusConfirm: false,
     reverseButtons: true,
     showLoaderOnConfirm: true,
@@ -142,7 +136,7 @@ export async function openContactForm({ title = "Let's talk" } = {}) {
         })
       );
     },
-    preConfirm: submit,
+    preConfirm: submit(s, lang),
   });
 
   if (result.isConfirmed) {
@@ -150,10 +144,9 @@ export async function openContactForm({ title = "Let's talk" } = {}) {
       ...swalTheme,
       customClass: { ...swalTheme.customClass, htmlContainer: "rp-swal-html rp-center" },
       icon: "success",
-      iconColor: "#c770f0",
-      title: "Message sent!",
-      text: "Thanks for reaching out. I'll contact you very soon.",
-      confirmButtonText: "Great",
+      title: s.okTitle,
+      text: s.okText,
+      confirmButtonText: s.okButton,
     });
     return true;
   }
