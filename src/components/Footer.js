@@ -1,20 +1,21 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import {
-  AiFillGithub,
-  // AiOutlineTwitter,
-  //AiFillInstagram,
-} from "react-icons/ai";
+import { AiFillGithub, AiOutlineMessage } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
+import { profile, links } from "../data/cv";
+import ContactButton from "./Contact/ContactButton";
+import { useLang } from "../context/LanguageContext";
 
 function Footer() {
-  let date = new Date();
-  let year = date.getFullYear();
+  const { t } = useLang();
+  const year = new Date().getFullYear();
   return (
     <Container fluid className="footer">
       <Row>
         <Col md="4" className="footer-copyright">
-          <h3>Developed by Rober Palestini</h3>
+          <h3>
+            {t("footer.developedBy")} {profile.name}
+          </h3>
         </Col>
         <Col md="4" className="footer-copyright">
           <h3>Copyright © {year} RP</h3>
@@ -23,19 +24,34 @@ function Footer() {
           <ul className="footer-icons">
             <li className="social-icons">
               <a
-                href="https://github.com/robertopalestini"
+                href={links.github}
                 style={{ color: "white" }}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub"
               >
                 <AiFillGithub />
               </a>
             </li>
             <li className="social-icons">
               <a
-                href="https://www.linkedin.com/in/robert-a-palestini-483586b1/"
+                href={links.linkedin}
                 style={{ color: "white" }}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
               >
                 <FaLinkedinIn />
               </a>
+            </li>
+            <li className="social-icons">
+              <ContactButton
+                className="icon-like"
+                style={{ color: "white" }}
+                aria-label={t("home.contactMe")}
+              >
+                <AiOutlineMessage />
+              </ContactButton>
             </li>
           </ul>
         </Col>

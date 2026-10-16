@@ -1,0 +1,303 @@
+/* Contact form (SweetAlert2) themed with the portfolio palette. */
+
+.contact-trigger {
+  font: inherit;
+  cursor: pointer;
+}
+
+.contact-trigger.link-like {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #c770f0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contact-trigger.link-like:hover {
+  color: #e0a6ff;
+}
+
+.contact-trigger.icon-like {
+  border: 0;
+  background: none;
+  padding: 0;
+}
+
+.swal2-container.swal2-backdrop-show {
+  background: rgba(8, 3, 16, 0.72) !important;
+  backdrop-filter: blur(6px);
+}
+
+.rp-swal {
+  width: min(460px, calc(100vw - 32px)) !important;
+  padding: 34px 30px 28px !important;
+  border-radius: 22px !important;
+  border: 1px solid rgba(199, 112, 240, 0.35);
+  background: linear-gradient(165deg, #241238 0%, #140a22 100%) !important;
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8),
+    0 0 60px -20px rgba(199, 112, 240, 0.5);
+  font-family: "Raleway", sans-serif;
+}
+
+.rp-swal-title {
+  color: #fff !important;
+  font-size: 1.8rem !important;
+  font-weight: 700 !important;
+  padding: 0 !important;
+}
+
+.rp-swal-html {
+  margin: 10px 0 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.rp-swal-html.rp-center {
+  text-align: center !important;
+}
+
+.rp-swal-intro {
+  text-align: center;
+  color: #b9a7c9;
+  font-size: 0.95rem;
+  margin: 0 0 20px;
+}
+
+.rp-form {
+  display: grid;
+  gap: 14px;
+}
+
+.rp-field {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+
+.rp-field span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #e6d6f3;
+}
+
+.rp-field em {
+  color: #fb6fcd;
+  font-style: normal;
+}
+
+.rp-field small {
+  color: #9f8bb3;
+  font-weight: 500;
+}
+
+.rp-field input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(199, 112, 240, 0.28);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.rp-field input::placeholder {
+  color: #8a7a9b;
+}
+
+.rp-field input:focus {
+  border-color: #c770f0;
+  background: rgba(199, 112, 240, 0.08);
+  box-shadow: 0 0 0 3px rgba(199, 112, 240, 0.22);
+}
+
+.rp-field input.is-invalid {
+  border-color: #ff6b8b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 139, 0.18);
+}
+
+.rp-hp {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.rp-swal .swal2-actions {
+  gap: 10px;
+  margin-top: 24px !important;
+  width: 100%;
+}
+
+.rp-swal-confirm,
+.rp-swal-cancel {
+  min-width: 120px;
+  padding: 11px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.rp-swal-confirm {
+  border: 0;
+  color: #fff;
+  background: linear-gradient(120deg, #8a49a8, #c770f0 55%, #fb6fcd);
+  box-shadow: 0 10px 26px -10px rgba(199, 112, 240, 0.9);
+}
+
+.rp-swal-confirm:hover {
+  transform: translateY(-1px);
+}
+
+.rp-swal-cancel {
+  color: #e6d6f3;
+  border: 1px solid rgba(199, 112, 240, 0.4);
+  background: transparent;
+}
+
+.rp-swal-cancel:hover {
+  background: rgba(199, 112, 240, 0.12);
+}
+
+.rp-swal-confirm:focus-visible,
+.rp-swal-cancel:focus-visible {
+  outline: 2px solid #c770f0;
+  outline-offset: 2px;
+}
+
+.rp-swal-loader {
+  border-color: #c770f0 transparent #c770f0 transparent !important;
+}
+
+.rp-swal-validation {
+  margin: 16px 0 0 !important;
+  border-radius: 10px;
+  background: rgba(255, 107, 139, 0.12) !important;
+  color: #ffc2cf !important;
+  font-size: 0.9rem !important;
+}
+
+.rp-swal-validation::before {
+  background-color: #ff6b8b !important;
+}
+
+.rp-swal .swal2-html-container,
+.rp-swal .swal2-html-container p {
+  color: #d8c8e6;
+}
+
+.rp-swal .swal2-icon.swal2-success [class^="swal2-success-line"] {
+  background-color: #c770f0 !important;
+}
+
+.rp-swal .swal2-icon.swal2-success .swal2-success-ring {
+  border-color: rgba(199, 112, 240, 0.35) !important;
+}
+
+.rp-swal .swal2-icon.swal2-success [class^="swal2-success-circular-line"],
+.rp-swal .swal2-icon.swal2-success .swal2-success-fix {
+  background: transparent !important;
+}
+
+.rp-swal-in {
+  animation: rp-swal-in 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.rp-swal-out {
+  animation: rp-swal-out 0.2s ease forwards;
+}
+
+@keyframes rp-swal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+
+@keyframes rp-swal-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-swal-in,
+  .rp-swal-out {
+    animation: none;
+  }
+}
+
+/* Match the round social icons when the trigger is a <button>. */
+button.home-social-icons {
+  border: 0;
+  padding: 0;
+  line-height: 1 !important;
+  vertical-align: top;
+}
+
+.rp-swal {
+  color: #f3eafa;
+}
+
+/* ---------- Light theme ---------- */
+[data-theme="light"] .swal2-container.swal2-backdrop-show {
+  background: rgba(60, 30, 90, 0.35) !important;
+}
+
+[data-theme="light"] .rp-swal {
+  color: #2a1a3d;
+  background: linear-gradient(165deg, #ffffff 0%, #f6eefc 100%) !important;
+  border-color: rgba(138, 63, 191, 0.3);
+  box-shadow: 0 30px 80px -24px rgba(60, 20, 90, 0.45);
+}
+
+[data-theme="light"] .rp-swal-title {
+  color: #1d1030 !important;
+}
+
+[data-theme="light"] .rp-swal-intro,
+[data-theme="light"] .rp-swal .swal2-html-container,
+[data-theme="light"] .rp-swal .swal2-html-container p {
+  color: #5d4b70;
+}
+
+[data-theme="light"] .rp-field span {
+  color: #3d2a52;
+}
+
+[data-theme="light"] .rp-field input {
+  color: #1d1030;
+  background: #fff;
+  border-color: rgba(138, 63, 191, 0.3);
+}
+
+[data-theme="light"] .rp-field input::placeholder {
+  color: #a596b4;
+}
+
+[data-theme="light"] .rp-field input:focus {
+  border-color: #8a3fbf;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(138, 63, 191, 0.18);
+}
+
+[data-theme="light"] .rp-swal-cancel {
+  color: #4b2a6b;
+  border-color: rgba(138, 63, 191, 0.4);
+}
+
+[data-theme="light"] .rp-swal-validation {
+  background: rgba(214, 59, 90, 0.08) !important;
+  color: #a3123a !important;
+}
+
+[data-theme="light"] .contact-trigger.link-like {
+  color: #8a3fbf;
+}

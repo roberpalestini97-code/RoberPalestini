@@ -1,0 +1,105 @@
+.gh-cal {
+  --l0: #2a1d3d;
+  --l1: #5a2d82;
+  --l2: #8400b8;
+  --l3: #b22ff4;
+  --l4: #d68cff;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto 40px;
+  padding: 0 12px;
+}
+
+[data-theme="light"] .gh-cal {
+  --l0: #efe2f8;
+  --l1: #d2a6ef;
+  --l2: #b06fdc;
+  --l3: #8a3fbf;
+  --l4: #5e1a8c;
+}
+
+.gh-cal-scroll {
+  overflow-x: auto;
+  padding-bottom: 6px;
+  direction: rtl; /* keeps the most recent weeks visible on small screens */
+}
+
+.gh-cal-scroll svg {
+  direction: ltr;
+  display: block;
+  margin: 0 auto;
+}
+
+.gh-cal-month {
+  font-size: 10px;
+  fill: var(--text-muted);
+}
+
+.gh-l0 {
+  fill: var(--l0);
+}
+.gh-l1 {
+  fill: var(--l1);
+}
+.gh-l2 {
+  fill: var(--l2);
+}
+.gh-l3 {
+  fill: var(--l3);
+}
+.gh-l4 {
+  fill: var(--l4);
+}
+
+.gh-cal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+.gh-cal-footer a {
+  color: var(--accent);
+}
+
+.gh-cal-legend {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.gh-cal-legend i {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  background: var(--l0);
+}
+
+.gh-cal-legend i.gh-l1 {
+  background: var(--l1);
+}
+.gh-cal-legend i.gh-l2 {
+  background: var(--l2);
+}
+.gh-cal-legend i.gh-l3 {
+  background: var(--l3);
+}
+.gh-cal-legend i.gh-l4 {
+  background: var(--l4);
+}
+
+.gh-cal-skeleton {
+  height: 130px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--chip-bg), rgba(199, 112, 240, 0.18), var(--chip-bg));
+  background-size: 200% 100%;
+  animation: gh-shimmer 1.4s linear infinite;
+}
+
+@keyframes gh-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}

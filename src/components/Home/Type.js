@@ -1,20 +1,15 @@
 import React from "react";
 import Typewriter from "typewriter-effect";
+import { useCv } from "../../data/cv";
+import { useLang } from "../../context/LanguageContext";
 
 function Type() {
+  const { roles } = useCv();
+  const { lang } = useLang();
   return (
     <Typewriter
-      options={{
-        strings: [
-          "FullStack Developer",
-          "React.js & Node.js",
-          "Web Designer",
-          "Graphic Designer",
-        ],
-        autoStart: true,
-        loop: true,
-        deleteSpeed: 50,
-      }}
+      key={lang}
+      options={{ strings: roles, autoStart: true, loop: true, deleteSpeed: 50 }}
     />
   );
 }

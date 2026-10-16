@@ -1,21 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
+  <meta name="theme-color" content="#0c0513" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <title>Robert A. Palestini | Portfolio</title>
-  <meta name="description" content="My portfolio and resume website built with React.js">
+  <title>Roberto Palestini | Senior Full Stack Developer</title>
+  <meta name="description"
+    content="Roberto Palestini – Senior Full Stack Developer with 12+ years: React/Next.js, Node.js/NestJS, Java, .NET, AWS/Azure, Docker, Kubernetes and AI-first development." />
+  <meta name="author" content="Roberto Palestini" />
+  <link rel="canonical" href="__SITE_URL__/" />
 
-  <!-- Google / Search Engine Tags -->
-  <meta itemprop="name" content="Robert A. Palestini | Portfolio">
-  <meta itemprop="description" content="My portfolio and resume website built with React.js">
- 
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="__SITE_URL__/" />
+  <meta property="og:title" content="Roberto Palestini | Senior Full Stack Developer" />
+  <meta property="og:description"
+    content="Full stack, cloud and AI-first development: SaaS products, banking platforms and immersive websites." />
+  <meta property="og:image" content="__SITE_URL__/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="es_AR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Roberto Palestini | Senior Full Stack Developer" />
+  <meta name="twitter:description"
+    content="Full stack, cloud and AI-first development: SaaS products, banking platforms and immersive websites." />
+  <meta name="twitter:image" content="__SITE_URL__/og-image.jpg" />
 
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Roberto Palestini",
+      "jobTitle": "Senior Full Stack Developer",
+      "url": "__SITE_URL__/",
+      "image": "__SITE_URL__/og-image.jpg",
+      "address": { "@type": "PostalAddress", "addressLocality": "Mar del Plata", "addressRegion": "Buenos Aires", "addressCountry": "AR" },
+      "sameAs": [
+        "https://www.linkedin.com/in/rober-palestini-3a2b43365",
+        "https://github.com/roberpalestini97-code",
+        "https://www.freelancer.com/u/roberpalestini"
+      ],
+      "knowsAbout": ["React", "Next.js", "Node.js", "NestJS", "Java", "Spring Boot", ".NET", "AWS", "Azure", "Docker", "Kubernetes", "AI agents"]
+    }
+  </script>
+
+  <!-- Apply the saved theme/language before React loads (avoids a flash). -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t !== "light" && t !== "dark") {
+          t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+        var l = localStorage.getItem("lang");
+        if (l !== "es" && l !== "en") l = (navigator.language || "en").toLowerCase().indexOf("es") === 0 ? "es" : "en";
+        document.documentElement.lang = l;
+      } catch (e) {}
+    })();
+  </script>
 </head>
 
 <body>

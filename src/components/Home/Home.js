@@ -4,8 +4,13 @@ import homeLogo from "../../Assets/home-main.svg";
 import Particle from "../Particle";
 import Home2 from "./Home2";
 import Type from "./Type";
+import { profile } from "../../data/cv";
+import { useLang } from "../../context/LanguageContext";
+import usePageMeta from "../../hooks/usePageMeta";
 
 function Home() {
+  const { t } = useLang();
+  usePageMeta(null);
   return (
     <section>
       <Container fluid className="home-section" id="home">
@@ -14,12 +19,12 @@ function Home() {
           <Row>
             <Col md={7} className="home-header">
               <h1 style={{ paddingBottom: 15 }} className="heading">
-                Hi there! <span className="wave">👋🏻</span>
+                {t("home.greeting")} <span className="wave">👋🏻</span>
               </h1>
 
               <h1 className="heading-name">
-                I'm
-                <strong className="main-name"> Robert A. Palestini</strong>
+                {t("home.iAm")}
+                <strong className="main-name"> {profile.name}</strong>
               </h1>
 
               <div style={{ padding: 50, textAlign: "left" }}>
@@ -28,7 +33,7 @@ function Home() {
             </Col>
 
             <Col md={5} style={{ paddingBottom: 20 }}>
-              <img src={homeLogo} alt="home pic" className="img-fluid" />
+              <img src={homeLogo} alt="" className="img-fluid" />
             </Col>
           </Row>
         </Container>
