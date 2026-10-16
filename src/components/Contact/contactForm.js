@@ -3,10 +3,9 @@ import axios from "axios";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "./contact.css";
 
-const API_URL = (process.env.REACT_APP_API_URL || "http://localhost:3600").replace(
-  /\/$/,
-  ""
-);
+// Same-origin "/api" by default (Vercel function in production, CRA proxy
+// to Server/ in development). Override with REACT_APP_API_URL if needed.
+const API_URL = (process.env.REACT_APP_API_URL || "/api").replace(/\/$/, "");
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_RE = /^\+?[\d\s().-]+$/;

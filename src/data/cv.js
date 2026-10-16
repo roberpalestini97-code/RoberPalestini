@@ -17,7 +17,6 @@ export const links = {
   github: "https://github.com/robertopalestini",
   githubUser: "robertopalestini",
   freelancer: "https://www.freelancer.com/u/roberpalestini",
-  portfolio: "https://connectwithme.vercel.app",
   botpass: "https://botpass.io",
 };
 

@@ -1,120 +1,121 @@
-# Despliegue del portfolio
+# Despliegue desde cero en Vercel
 
-El repo tiene dos apps que se despliegan por separado en **Vercel**:
+Todo el portfolio se despliega como **un solo proyecto de Vercel**:
 
-| App | Carpeta | Qué hace | URL sugerida |
-| --- | --- | --- | --- |
-| Front (React) | `/` | El sitio | `https://connectwithme.vercel.app` |
-| API (Express) | `/Server` | `POST /contact` envía los emails (y likes/ranks) | `https://<tu-api>.vercel.app` |
+- **El sitio (React)** se genera desde la raíz del repo.
+- **El formulario de contacto** es una función serverless en `/api/contact`, en el mismo dominio.
+  Usa el código de `Server/`.
 
-El formulario de contacto (SweetAlert) hace `POST {REACT_APP_API_URL}/contact` con
-`{ name, phone, email? }`. La API valida, frena spam (honeypot y 5 envíos cada 15 min por IP) y:
+Al estar todo en el mismo dominio no hay que configurar CORS ni la URL de la API. Solo hacen
+falta las credenciales de Gmail.
 
-1. Te envía un email a **roberpalestini97@gmail.com** (es el valor por defecto; `CONTACT_TO` solo hace falta si algún día querés cambiarlo) con nombre, teléfono (con link a WhatsApp) y email. Si el visitante dejó su email, el *Responder* va directo a él.
-2. Si el visitante dejó email, le envía un "gracias" (se apaga con `SEND_CONFIRMATION=false`).
+Los mensajes del formulario llegan a **roberpalestini97@gmail.com**. Si el visitante deja su
+email, también le llega un "gracias", y al tocar *Responder* le contestás directo.
 
 ---
 
-## Paso 0: credenciales de email (Gmail)
+## Paso 1: contraseña de aplicación de Gmail (5 min)
 
-1. En tu cuenta de Google activá la **verificación en 2 pasos**.
-2. Andá a **Cuenta de Google → Seguridad → Contraseñas de aplicaciones** y creá una para "Portfolio".
-3. Guardá la contraseña de 16 caracteres: es tu `SMTP_PASS`. Nunca la subas al repo.
+1. Entrá a https://myaccount.google.com con **roberpalestini97@gmail.com**.
+2. **Seguridad → Verificación en 2 pasos**: activala si no lo está.
+3. **Seguridad → Contraseñas de aplicaciones** (o buscá "contraseñas de aplicaciones" arriba).
+4. Creá una con el nombre "Portfolio" y copiá la clave de 16 letras. Es tu `SMTP_PASS`.
+   No la compartas ni la subas al repo.
 
-> Gmail permite unos 500 envíos por día, de sobra para un portfolio. Si algún día preferís
-> Resend, Brevo o SendGrid, usan SMTP igual: solo cambian `SMTP_HOST`, `SMTP_USER` y `SMTP_PASS`.
+## Paso 2: pasar los cambios a `main`
 
-## Paso 1: subir la rama a `main`
+Vercel publica en producción lo que está en la rama principal. Mergeá
+`ccr-e594c8b2-d1rodt` a `main` (por PR en GitHub o merge directo).
 
-Vercel despliega a producción desde la rama principal. Mergeá `ccr-e594c8b2-d1rodt` a `main`
-(por PR o merge directo).
+## Paso 3: cuenta y proyecto nuevos en Vercel (5 min)
 
-## Paso 2: desplegar la API
+1. Entrá a https://vercel.com/signup y elegí **Continue with GitHub**, así la cuenta queda atada a
+   tu GitHub y no perdés el acceso.
+2. **Add New → Project** → elegí el repo `RoberPalestini` → **Import**.
+   Si no aparece, tocá **Adjust GitHub App Permissions** y dale acceso al repo.
+3. En la pantalla de configuración:
+   - **Project Name:** el que quieras. Define la URL, por ejemplo `roberto-palestini` → `roberto-palestini.vercel.app`.
+   - **Root Directory:** dejala en `./` (la raíz).
+   - **Build & Output Settings:** no toques nada; lo toma del `vercel.json` del repo.
+4. Abrí **Environment Variables** y cargá:
 
-1. En vercel.com: **Add New → Project** e importá el repo.
-2. **Root Directory:** `Server`. **Framework Preset:** Other. Dejá vacíos los comandos de build.
-3. **Environment Variables** (Production):
-
-   | Variable | Valor |
+   | Name | Value |
    | --- | --- |
    | `SMTP_HOST` | `smtp.gmail.com` |
    | `SMTP_PORT` | `465` |
    | `SMTP_SECURE` | `true` |
    | `SMTP_USER` | `roberpalestini97@gmail.com` |
-   | `SMTP_PASS` | la contraseña de aplicación del paso 0 |
+   | `SMTP_PASS` | la clave de 16 letras del paso 1 |
    | `MAIL_FROM` | `Portfolio <roberpalestini97@gmail.com>` |
-   | `CONTACT_TO` | opcional: si no está, va a `roberpalestini97@gmail.com` |
-   | `ALLOWED_ORIGINS` | `https://connectwithme.vercel.app` (la URL final del front; si tenés varias, separalas con coma) |
-   | `MONGODB_URI` | opcional, solo para likes/ranks |
 
-4. Deploy. Anotá la URL, por ejemplo `https://rober-portfolio-api.vercel.app`.
-5. Probá que responda:
+   `CONTACT_TO` no hace falta: por defecto los mensajes van a roberpalestini97@gmail.com.
 
-   ```bash
-   curl https://<tu-api>.vercel.app/
-   # {"message":"Server Running"}
+5. **Deploy**. Tarda unos 2 minutos.
 
-   curl -X POST https://<tu-api>.vercel.app/contact \
-     -H "Content-Type: application/json" \
-     -d '{"name":"Prueba","phone":"+54 9 223 343 1845","email":"tu-otro-mail@ejemplo.com"}'
-   # {"status":200,"message":"Message sent"}  → revisá tu bandeja de entrada
-   ```
+> Si agregás o cambiás variables después del primer deploy, andá a **Deployments → ⋯ → Redeploy**
+> para que se apliquen.
 
-## Paso 3: desplegar el front
+## Paso 4: verificar (3 min)
 
-1. **Add New → Project**, mismo repo.
-2. **Root Directory:** `/` (raíz). **Framework Preset:** Create React App
-   (build `npm run build`, output `build`). El `.npmrc` ya resuelve el problema de OpenSSL de
-   CRA 4 con Node 18, 20 o 22.
-3. **Environment Variables:** `REACT_APP_API_URL` = `https://<tu-api>.vercel.app`, sin `/` al final.
-   Como CRA mete esta variable dentro del build, si la cambiás tenés que **redesplegar**.
-4. Deploy. En **Settings → Domains** asigná `connectwithme.vercel.app` o tu dominio.
-5. El `vercel.json` de la raíz hace que `/about`, `/project` y `/resume` funcionen también al recargar la página.
+1. Abrí `https://<tu-proyecto>.vercel.app/api/health`. Tiene que mostrar `{"status":"ok"}`.
+2. Abrí el sitio, andá a **Projects → Get in touch** y enviá un mensaje con tu nombre, tu
+   celular y otro email tuyo.
+3. Revisá **roberpalestini97@gmail.com**: tiene que llegar *"New portfolio contact: …"*.
+   La primera vez fijate también en **Spam** y marcalo "No es spam".
+4. Recargá directamente `https://<tu-proyecto>.vercel.app/resume`: no tiene que dar 404.
 
-## Paso 4: cerrar CORS
+### Checklist
 
-Si la URL final del front no es la que pusiste en `ALLOWED_ORIGINS`, actualizala en la API y
-redesplegá la API. Sin esto, el navegador bloquea el envío del formulario.
+- [ ] `/api/health` responde `{"status":"ok"}`
+- [ ] Mensaje con email: llegan 2 correos (a vos y al visitante)
+- [ ] Mensaje sin email: te llega solo el tuyo
+- [ ] Datos inválidos: el formulario marca los campos y no envía
+- [ ] Los 4 botones de contacto abren el formulario (Home, About, footer, Projects)
+- [ ] Recargar `/about`, `/project` y `/resume` funciona
 
-## Paso 5: checklist final
+## Paso 5: actualizar tu nueva URL
 
-- [ ] Abrir el sitio, tocar **Get in touch** y enviar un mensaje con email: llegan 2 emails (a vos y al visitante).
-- [ ] Enviar otro sin email: te llega solo el tuyo, y el *Responder* no apunta a nadie.
-- [ ] Probar datos inválidos: el formulario marca los campos en rojo y no envía.
-- [ ] Revisar la carpeta de spam la primera vez y marcar "No es spam".
-- [ ] Probar los otros botones de contacto (ícono en Home, link en About, ícono en el footer).
-- [ ] Recargar directamente en `/project` y `/resume`: no debe dar 404.
+La URL vieja (`connectwithme.vercel.app`) ya no es tuya. Cuando tengas la nueva:
+
+- **CV en PDF:** tu CV (`src/Assets/curriculum.pdf`) todavía dice `Portfolio: connectwithme.vercel.app`.
+  Generá el PDF con la URL nueva y reemplazá ese archivo.
+- **LinkedIn y otros perfiles:** cambiá el link del portfolio.
+- **Opcional, dominio propio:** en Vercel, **Settings → Domains → Add** (por ejemplo `robertopalestini.dev`)
+  y seguí las instrucciones de DNS que te muestra.
 
 ## Problemas comunes
 
 | Síntoma | Causa | Solución |
 | --- | --- | --- |
-| El formulario dice "couldn't be sent" y la API responde **503** | Faltan variables SMTP | Revisar `SMTP_HOST`, `SMTP_USER` y `SMTP_PASS` en Vercel, y redesplegar |
-| La API responde **502** | Gmail rechazó el login | Usar una **contraseña de aplicación**, no tu contraseña normal; verificar `SMTP_USER` |
-| La consola del navegador muestra un error de CORS | El origen no está permitido | Agregar la URL exacta del front a `ALLOWED_ORIGINS` |
-| El formulario apunta a `localhost:3600` en producción | Falta `REACT_APP_API_URL` en el build | Configurarla en el proyecto del front y redesplegar |
-| **429** | Más de 5 envíos en 15 min desde la misma IP | Esperar; es la protección anti-spam |
+| El formulario dice "couldn't be sent" y `/api/contact` da **503** | Faltan `SMTP_HOST`, `SMTP_USER` o `SMTP_PASS` | Cargarlas en **Settings → Environment Variables** y hacer **Redeploy** |
+| `/api/contact` da **502** | Gmail rechazó el login | Usar la **contraseña de aplicación**, no la contraseña normal; revisar que `SMTP_USER` sea exacto |
+| El build falla con `ERR_OSSL_EVP_UNSUPPORTED` | No se aplicó el `.npmrc` | Verificar que `.npmrc` esté en el repo (ya está) y que **Node.js Version** sea 22.x en **Settings → General** |
+| **429** | Más de 5 envíos en 15 min desde la misma IP | Es la protección anti-spam; esperar |
+| No llega nada pero la respuesta es 200 | Filtro de Gmail | Revisar **Spam** y **Todos los correos**; marcar como "No es spam" |
+
+Para ver errores del servidor: **Vercel → tu proyecto → Logs**, filtrando por `/api/contact`.
 
 ## Desarrollo local
 
 ```bash
-# API
+# Terminal 1: API
 cd Server
-cp .env.example .env   # completar SMTP_* (o MAIL_TRANSPORT=json para no enviar de verdad)
+cp .env.example .env    # completar SMTP_* (o MAIL_TRANSPORT=json para no enviar de verdad)
 npm install
-npm run start-server   # http://localhost:3600
-npm test               # tests del formulario de contacto
+npm run start-server    # http://localhost:3600
+npm test                # tests del formulario
 
-# Front (otra terminal)
-cp .env.example .env   # REACT_APP_API_URL=http://localhost:3600
+# Terminal 2: sitio
 npm install
-npm start              # http://localhost:3000
+npm start               # http://localhost:3000 (redirige /api al puerto 3600)
 ```
 
-## Alternativa: front en AWS Amplify
+## Estructura del deploy
 
-El repo ya trae `amplify.yml`. Si preferís Amplify para el front:
-
-- Cargá `REACT_APP_API_URL` en **Environment variables**.
-- En **Rewrites and redirects** agregá: origen `</^[^.]+$|\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|pdf)$)([^.]+$)/>`, destino `/index.html`, tipo `200 (Rewrite)`.
-- Agregá el dominio de Amplify a `ALLOWED_ORIGINS` en la API.
+```
+vercel.json        → build de CRA, instala Server/, rewrites para la SPA
+api/contact.js     → función serverless: usa Server/app.js
+api/health.js      → chequeo rápido de que las funciones están vivas
+Server/            → Express: validación, anti-spam y envío con nodemailer
+src/               → el sitio (React)
+```
