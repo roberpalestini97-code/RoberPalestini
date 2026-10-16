@@ -10,7 +10,7 @@ El repo tiene dos apps que se despliegan por separado en **Vercel**:
 El formulario de contacto (SweetAlert) hace `POST {REACT_APP_API_URL}/contact` con
 `{ name, phone, email? }`. La API valida, frena spam (honeypot y 5 envíos cada 15 min por IP) y:
 
-1. Te envía un email a `CONTACT_TO` con nombre, teléfono (con link a WhatsApp) y email. Si el visitante dejó su email, el *Responder* va directo a él.
+1. Te envía un email a **roberpalestini97@gmail.com** (es el valor por defecto; `CONTACT_TO` solo hace falta si algún día querés cambiarlo) con nombre, teléfono (con link a WhatsApp) y email. Si el visitante dejó su email, el *Responder* va directo a él.
 2. Si el visitante dejó email, le envía un "gracias" (se apaga con `SEND_CONFIRMATION=false`).
 
 ---
@@ -43,7 +43,7 @@ Vercel despliega a producción desde la rama principal. Mergeá `ccr-e594c8b2-d1
    | `SMTP_USER` | `roberpalestini97@gmail.com` |
    | `SMTP_PASS` | la contraseña de aplicación del paso 0 |
    | `MAIL_FROM` | `Portfolio <roberpalestini97@gmail.com>` |
-   | `CONTACT_TO` | `roberpalestini97@gmail.com` |
+   | `CONTACT_TO` | opcional: si no está, va a `roberpalestini97@gmail.com` |
    | `ALLOWED_ORIGINS` | `https://connectwithme.vercel.app` (la URL final del front; si tenés varias, separalas con coma) |
    | `MONGODB_URI` | opcional, solo para likes/ranks |
 
@@ -89,7 +89,7 @@ redesplegá la API. Sin esto, el navegador bloquea el envío del formulario.
 
 | Síntoma | Causa | Solución |
 | --- | --- | --- |
-| El formulario dice "couldn't be sent" y la API responde **503** | Faltan variables SMTP | Revisar `SMTP_*`, `MAIL_FROM` y `CONTACT_TO` en Vercel, y redesplegar |
+| El formulario dice "couldn't be sent" y la API responde **503** | Faltan variables SMTP | Revisar `SMTP_HOST`, `SMTP_USER` y `SMTP_PASS` en Vercel, y redesplegar |
 | La API responde **502** | Gmail rechazó el login | Usar una **contraseña de aplicación**, no tu contraseña normal; verificar `SMTP_USER` |
 | La consola del navegador muestra un error de CORS | El origen no está permitido | Agregar la URL exacta del front a `ALLOWED_ORIGINS` |
 | El formulario apunta a `localhost:3600` en producción | Falta `REACT_APP_API_URL` en el build | Configurarla en el proyecto del front y redesplegar |

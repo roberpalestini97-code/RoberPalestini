@@ -47,7 +47,7 @@ test("sends owner email and visitor confirmation", async () => {
   assert.equal(res.status, 200);
   assert.equal(sent.length, 2);
   const [owner, copy] = sent;
-  assert.equal(owner.to[0].address, "owner@example.com");
+  assert.equal(owner.to[0].address, "roberpalestini97@gmail.com");
   assert.equal(owner.replyTo[0].address, "ana@example.com");
   assert.match(owner.html, /Ana &lt;b&gt;Pérez&lt;\/b&gt;/);
   assert.match(owner.html, /wa\.me\/5492233431845/);
@@ -59,6 +59,7 @@ test("email is optional: only the owner is notified", async () => {
   const res = await post({ name: "Juan", phone: "2233431845" }, "10.0.0.2");
   assert.equal(res.status, 200);
   assert.equal(sent.length, 1);
+  assert.equal(sent[0].to[0].address, "roberpalestini97@gmail.com");
   assert.ok(!sent[0].replyTo);
 });
 

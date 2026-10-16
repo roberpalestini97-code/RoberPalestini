@@ -19,7 +19,6 @@ function getMailer() {
       mail: {
         ...mail,
         from: mail.from || "portfolio@example.com",
-        to: mail.to || "owner@example.com",
       },
     };
   }
