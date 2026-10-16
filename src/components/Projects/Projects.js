@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Container } from "react-bootstrap";
-import { FiMail, FiDownload, FiArrowRight } from "react-icons/fi";
+import { FiMessageCircle, FiDownload, FiArrowRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Particle from "../Particle";
 import Spotlight from "./Spotlight";
@@ -8,7 +8,7 @@ import ProjectCard from "./ProjectCard";
 import Reveal from "./Reveal";
 import CountUp from "./CountUp";
 import resume from "../../Assets/curriculum.pdf";
-import { profile } from "../../data/cv";
+import ContactButton from "../Contact/ContactButton";
 import {
   categories,
   spotlight,
@@ -146,9 +146,9 @@ function Projects() {
             production.
           </p>
           <div className="pj-cta-actions">
-            <a className="btn-glow" href={`mailto:${profile.email}`}>
-              <FiMail /> {profile.email}
-            </a>
+            <ContactButton className="btn-glow">
+              <FiMessageCircle /> Get in touch
+            </ContactButton>
             <a
               className="btn-ghost"
               href={resume}

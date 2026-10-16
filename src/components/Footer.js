@@ -1,8 +1,9 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { AiFillGithub, AiOutlineMail } from "react-icons/ai";
+import { AiFillGithub, AiOutlineMessage } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
 import { profile, links } from "../data/cv";
+import ContactButton from "./Contact/ContactButton";
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -40,13 +41,14 @@ function Footer() {
               </a>
             </li>
             <li className="social-icons">
-              <a
-                href={`mailto:${profile.email}`}
+              <ContactButton
+                className="icon-like"
                 style={{ color: "white" }}
-                aria-label="Email"
+                aria-label="Contact me"
+                title="Contact me"
               >
-                <AiOutlineMail />
-              </a>
+                <AiOutlineMessage />
+              </ContactButton>
             </li>
           </ul>
         </Col>

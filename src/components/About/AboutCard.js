@@ -2,6 +2,7 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import { ImPointRight } from "react-icons/im";
 import { profile, links, summary } from "../../data/cv";
+import ContactButton from "../Contact/ContactButton";
 
 function AboutCard() {
   return (
@@ -25,8 +26,8 @@ function AboutCard() {
             and <span className="purple">Software Engineering</span> (UTN).
             <br />
             <br />
-            Email:{" "}
-            <a href={`mailto:${profile.email}`}>{profile.email}</a>
+            Contact:{" "}
+            <ContactButton className="link-like">Send me a message</ContactButton>
             <br />
             LinkedIn:{" "}
             <a href={links.linkedin} target="_blank" rel="noreferrer">

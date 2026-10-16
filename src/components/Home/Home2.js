@@ -2,10 +2,11 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import myImg from "../../Assets/avatar.svg";
 import Tilt from "react-parallax-tilt";
-import { AiFillGithub, AiOutlineMail } from "react-icons/ai";
+import { AiFillGithub, AiOutlineMessage } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
 import { SiFreelancer } from "react-icons/si";
 import { profile, links } from "../../data/cv";
+import ContactButton from "../Contact/ContactButton";
 
 function Home2() {
   return (
@@ -111,13 +112,13 @@ function Home2() {
                 </a>
               </li>
               <li className="social-icons">
-                <a
-                  href={`mailto:${profile.email}`}
-                  className="icon-colour  home-social-icons"
-                  aria-label="Email"
+                <ContactButton
+                  className="icon-colour home-social-icons"
+                  aria-label="Contact me"
+                  title="Contact me"
                 >
-                  <AiOutlineMail />
-                </a>
+                  <AiOutlineMessage />
+                </ContactButton>
               </li>
             </ul>
           </Col>
