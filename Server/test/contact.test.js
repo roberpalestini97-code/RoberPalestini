@@ -97,3 +97,36 @@ test("rate limits repeated submissions from the same IP", async () => {
   }
   assert.equal(last.status, 429);
 });
+
+test("config cleans pasted values: quotes, spaces in the app password", () => {
+  const saved = { ...process.env };
+  process.env.SMTP_USER = "  me@gmail.com ";
+  process.env.SMTP_PASS = "abcd efgh ijkl mnop";
+  process.env.MAIL_FROM = '"Portfolio <me@gmail.com>"';
+  delete process.env.SMTP_HOST;
+  try {
+    const mail = require("../config").getMail();
+    assert.equal(mail.user, "me@gmail.com");
+    assert.equal(mail.pass, "abcdefghijklmnop");
+    assert.equal(mail.from, "Portfolio <me@gmail.com>");
+    assert.equal(mail.host, "smtp.gmail.com");
+    assert.equal(mail.to, "roberpalestini97@gmail.com");
+  } finally {
+    process.env = saved;
+  }
+});
+
+test("health reports missing mail settings without leaking values", async () => {
+  const saved = { ...process.env };
+  delete process.env.SMTP_PASS;
+  process.env.SMTP_USER = "me@gmail.com";
+  try {
+    const body = await (await fetch(`${base}/api/health`)).json();
+    assert.equal(body.status, "ok");
+    assert.equal(body.mail.configured, false);
+    assert.deepEqual(body.mail.missing, ["SMTP_PASS"]);
+    assert.ok(!JSON.stringify(body).includes("me@gmail.com"));
+  } finally {
+    process.env = saved;
+  }
+});

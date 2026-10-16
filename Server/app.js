@@ -3,6 +3,7 @@ const cors = require("cors");
 const config = require("./config");
 const contactRoute = require("./Routes/contact");
 const likesRoute = require("./Routes/likes");
+const healthRoute = require("./Routes/health");
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.get("/", (req, res) => res.json({ message: "Server Running" }));
 // CRA dev proxy.
 app.use(["/contact", "/api/contact"], contactRoute);
 app.use(["/likes", "/api/likes"], likesRoute);
+app.use(["/health", "/api/health"], healthRoute);
 
 module.exports = app;

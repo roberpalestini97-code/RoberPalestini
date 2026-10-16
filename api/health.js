@@ -1,4 +1,2 @@
-// Vercel serverless function: GET /api/health
-module.exports = (req, res) => {
-  res.status(200).json({ status: "ok" });
-};
+// Vercel serverless function: GET /api/health (add ?smtp=1 to test the Gmail login)
+module.exports = require("../Server/app");
