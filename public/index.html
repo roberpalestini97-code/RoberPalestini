@@ -52,10 +52,7 @@
   <script>
     (function () {
       try {
-        var t = localStorage.getItem("theme");
-        if (t !== "light" && t !== "dark") {
-          t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-        }
+        var t = localStorage.getItem("theme") === "light" ? "light" : "dark";
         document.documentElement.setAttribute("data-theme", t);
         var l = localStorage.getItem("lang");
         if (l !== "es" && l !== "en") l = (navigator.language || "en").toLowerCase().indexOf("es") === 0 ? "es" : "en";
